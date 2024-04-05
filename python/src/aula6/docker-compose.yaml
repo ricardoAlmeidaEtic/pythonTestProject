@@ -1,0 +1,9 @@
+version: "latest"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: /bin/sh -c 'python3 src/main.py'
+    volumes:
+      - .:/workspace

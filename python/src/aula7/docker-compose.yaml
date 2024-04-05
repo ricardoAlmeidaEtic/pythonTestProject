@@ -1,0 +1,21 @@
+version: "latest"
+services:
+
+  aula7:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: /bin/sh -c 'python3 aula7/main.py'
+    volumes:
+      - .:/workspace
+    depends_on:
+      - ollama
+    ports:
+      - "8001:8001"
+
+  ollama:
+    image: ollama/ollama:0.1.30
+    ports:
+      - 11434:11434
+    expose:
+      - '11434'
