@@ -11,9 +11,8 @@ async def on_ready():
     print(f"{bot.user} is ready and online!")
 
 @bot.slash_command(name = "ricardo", description = "write something to the bot...")
-async def ricardo(ctx, *, message):
+async def ricardo(ctx, *, message:str):
     ollamaAPI = OllamaAPI()
-    ollamaAPI.prompt(OllamaPrompt(mode='gemma', prompt=message))
-    await ctx.respond()
+    await ctx.respond(await ollamaAPI.prompt(OllamaPrompt(prompt=message)))
 
-#bot.run('token')
+bot.run('MTIyNTUzNDA4NzA5NjMwMzczNw.GS1hT9.U9YHcDAJa-0RhkjFexqwglgAofiBmsxUbDtntk')

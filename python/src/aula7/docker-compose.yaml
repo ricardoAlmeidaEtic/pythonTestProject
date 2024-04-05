@@ -8,8 +8,6 @@ services:
     command: /bin/sh -c 'python3 aula7/main.py'
     volumes:
       - .:/workspace
-    depends_on:
-      - ollama
     ports:
       - "8001:8001"
 
