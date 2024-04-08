@@ -3,32 +3,32 @@ import asyncio
 import aiohttp
 from clients import OllamaAPI
 from models import OllamaPrompt
-from dotenv import load_dotenv
 
-load_dotenv() # load all the variables from the env file
-bot = discord.Bot()
-request_tasks = {}
+client = discord.Bot()
+ollamaAPI = OllamaAPI()
 
-@bot.event
+@client.event
 async def on_ready():
-    print(f"{bot.user} is ready and online!")
+    print('Bot is connected!!')
 
-@bot.slash_command(name="ricardo", description="write something to the bot...")
-async def ricardo(ctx, *, message: str):
-    sent_message = await ctx.respond("Processing answer...")
-    if ctx.author.id in request_tasks:
-        request_tasks[ctx.author.id].cancel()
-
-    request_tasks[ctx.author.id] = asyncio.create_task(request(sent_message,message))
-
-async def request(sent_message,message):
+@client.slash_command(name="ask", description="write something to the bot...")
+async def ask(ctx, *, question: str):
     try:
-        await sent_message.edit(content="Gathering answer...")
-        ollama_api = OllamaAPI()
-        prompt = OllamaPrompt(model="gemma:2b", prompt=message, stream=False)
-        response = await ollama_api.prompt(prompt)
-        await sent_message.edit(content=response)
+        await ctx.defer()
+        asyncio.run(await request(ctx,question))
     except Exception as e:
-        await sent_message.edit(content=f"An error occurred: {e}")
+        print("An interaction error occurred:", e)
+        # Log the error or notify the user appropriately
+        await ctx.send("Sorry, there was an error processing your request. Please try again later.")
 
-bot.run('MTIyNTUzNDA4NzA5NjMwMzczNw.G5IqLT.jqg-qLuK4E0TmpqjnQ_BV-nl6VLJ2bNT8t4Qbc')
+async def request(ctx,question):
+    question_prompt = OllamaPrompt(prompt=question)
+    response = await ollamaAPI.prompt(prompt=question_prompt)
+    
+    if not response.done:
+        await ctx.send(":poop Oops! Unable to generate a response.")
+    else:
+        await ctx.send(response.response)
+
+if __name__ == "__main__":
+    client.run('MTIyNjk3NzY2OTgyMDk3MzA3OA.GvuZZX.lpIiyDax4ZUg0_weT93py0Oo9VieLXzRyYPZ6Y')

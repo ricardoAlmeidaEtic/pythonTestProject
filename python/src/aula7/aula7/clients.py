@@ -11,19 +11,20 @@ class OllamaAPI:
     async def prompt(self, prompt: OllamaPrompt):
         assert prompt
 
-        # Make the request to the Ollama API
-        response = requests.post(
-            f'{self.base_url}/{self.prompt_endpoint}',
-            json={
-                'model': prompt.model,
-                'prompt': prompt.prompt,
-                'stream': prompt.stream
-            }
-        )
-
         try:
-            response.raise_for_status()  # Raise an exception for HTTP errors
-            return response.json().get('response', None)
+
+            response: requests.Response = requests.post(
+                url=f"{self.base_url}/{self.prompt_endpoint}",
+                data=prompt.model_dump_json()
+            )
+
+            response.raise_for_status()
+
+            return OllamaResponse(
+                done=response.json().get('done', False),
+                response=response.json().get('response', None)
+            )
+        
         except requests.exceptions.HTTPError as err:
             print("HTTP error:", err)
             print("Response content:", response.content)
