@@ -6,10 +6,12 @@ services:
       context: .
       dockerfile: Dockerfile
     command: /bin/sh -c 'python3 aula7/main.py'
-    volumes:
-      - .:/workspace
     ports:
       - "8001:8001"
+    volumes:
+      - .:/workspace
+    networks:
+      - app_network
 
   ollama:
     image: ollama/ollama:0.1.30
@@ -17,3 +19,10 @@ services:
       - 11434:11434
     expose:
       - '11434'
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    name: app_network
+    driver: bridge
