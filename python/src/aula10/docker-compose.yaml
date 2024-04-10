@@ -1,21 +1,13 @@
-version: "latest"
-services:
+version: '3'
 
+services:
   api:
     build:
       context: .
       dockerfile: Dockerfile
+    command: sh -c "sleep 10s; poetry run; python src/main.py;"
     volumes:
       - .:/workspace
+    ports:
+      - "8000:8000"
 
-#  mysql:
-#    image: mysql:8.3.0
-#    ports:
-#      - 3306:3306
-#    expose:
-#      - '3306'
-#    environment:
-#      MYSQL_DATABASE: 'db'
-#      MYSQL_USER: 'user'
-#      MYSQL_PASSWORD: 'password'
-#      MYSQL_ROOT_PASSWORD: 'password'

@@ -1,16 +1,16 @@
 [tool.poetry]
-name = "workspace"
+name = "aula10"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
-readme = "README.md"
+authors = ["ricardoAlmeidaEtic <ricardo_almeida@eticalgarve.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.10"
 fastapi = "^0.110.1"
 uvicorn = "^0.29.0"
 
+[tool.poetry.dev-dependencies]
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
