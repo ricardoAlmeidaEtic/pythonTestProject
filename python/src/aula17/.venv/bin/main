@@ -1,0 +1,6 @@
+#!/home/aluno/Projects/pythonTestProject/python/src/aula4/.venv/bin/python
+import sys
+from src.main import main
+
+if __name__ == '__main__':
+    sys.exit(main())
